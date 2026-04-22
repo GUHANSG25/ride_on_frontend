@@ -99,7 +99,8 @@ export default function AdminDashboard() {
             <div className="page-head"><h1>Revenue Reports</h1><p>Track revenue and analytics</p></div>
           )}
           {activeSection === "cancellations" && (
-            <div className="page-head"><h1>Cancellations</h1><p>Monitor cancellation trends</p></div>
+            <div className="page-head"><h1>Cancellations</h1><p>Monitor cancellation trends</p>
+            <p>under development</p></div>
           )}
         </div>
       </main>
