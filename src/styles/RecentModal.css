@@ -1,0 +1,18 @@
+.panel {
+  background: #ffffff;
+  border: 1px solid #e5e8ef;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+}
+
+.panel-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #e5e8ef;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-title { font-size: 14px; font-weight: 700; color: #111827; }
+.panel-body { padding: 20px; }

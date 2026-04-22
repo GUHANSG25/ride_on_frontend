@@ -1,0 +1,332 @@
+/* ADD this at the very top of auth.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+
+/* ADD this after the @import */
+.auth-form-col,
+.auth-form-col *,
+.signup-body,
+.signup-body * {
+  font-family: 'DM Sans', sans-serif;
+}
+
+
+:root {
+      --ink: #0f1117;
+      --blue: #1a3bff;
+      --blue-dark: #1228cc;
+      --blue-light: #eef0ff;
+      --muted: #6b7280;
+      --border: #e2e4ea;
+      --success: #16a34a;
+      --error: #dc2626;
+    }
+
+    .auth-image-col {
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-image-col img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+    .auth-image-col::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(26,59,255,0.55) 0%, rgba(15,17,23,0.35) 100%);
+    }
+    .auth-image-overlay {
+      position: absolute;
+      bottom: 2rem;
+      left: 1.5rem;
+      right: 1.5rem;
+      z-index: 1;
+      color: #fff;
+    }
+    .auth-image-overlay h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: .25rem;
+    }
+    .auth-image-overlay p {
+      font-size: .8rem;
+      opacity: .8;
+      margin: 0;
+    }
+
+    .auth-form-col { padding: 2.5rem 2rem; }
+
+    .auth-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .auth-title span { color: var(--blue); }
+
+    .form-label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      margin-bottom: .35rem;
+    }
+
+    .form-control, .form-select {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: .6rem .9rem;
+      font-size: .9rem;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,59,255,.1);
+      outline: none;
+    }
+    .form-control.is-invalid, .form-select.is-invalid {
+      border-color: var(--error);
+    }
+
+    .field-error, .invalid-feedback {
+      font-size: .75rem;
+      color: var(--error);
+      margin-top: .3rem;
+      min-height: 1rem;
+    }
+
+    /* Phone row */
+    .phone-prefix {
+      background: var(--blue-light);
+      border: 1.5px solid var(--border);
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+      padding: .6rem .9rem;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--blue);
+      white-space: nowrap;
+    }
+    .phone-prefix + .form-control {
+      border-radius: 0 10px 10px 0;
+    }
+
+    /* OTP input group */
+    .otp-group {
+      display: flex;
+      gap: .5rem;
+      justify-content: center;
+      margin: .5rem 0 1rem;
+    }
+    .otp-group input {
+      width: 46px;
+      height: 52px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .otp-group input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,59,255,.1);
+      outline: none;
+    }
+    .otp-group input.is-invalid { border-color: var(--error); }
+
+    .resend-row {
+      font-size: .8rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .resend-row a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .resend-row a.disabled {
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    /* Buttons */
+    .btn-primary-auth {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: .65rem 1.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: .9rem;
+      letter-spacing: .02em;
+      transition: background .2s, transform .1s;
+      cursor: pointer;
+    }
+    .btn-primary-auth:hover { background: var(--blue-dark); }
+    .btn-primary-auth:active { transform: scale(.97); }
+
+    .btn-ghost-auth {
+      background: none;
+      border: none;
+      color: var(--blue);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: none;
+    }
+    .btn-ghost-auth:hover { text-decoration: underline; }
+
+    .switch-link { font-size: .82rem; color: var(--muted); }
+    .switch-link a { color: var(--blue); font-weight: 600; text-decoration: none; }
+
+    /* Terms checkbox */
+    .terms-check .form-check-input {
+      border-radius: 4px;
+      border: 1.5px solid var(--border);
+      margin-top: 2px;
+    }
+    .terms-check .form-check-input:checked {
+      background-color: var(--blue);
+      border-color: var(--blue);
+    }
+    .terms-check label {
+      font-size: .8rem;
+      color: var(--muted);
+      text-transform: none;
+      font-weight: 400;
+    }
+    .terms-check label a { color: var(--blue); font-weight: 600; text-decoration: none; }
+
+    /* Step indicator */
+    .step-dots {
+      display: flex;
+      gap: .4rem;
+      margin-bottom: 1.5rem;
+    }
+    .step-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background .3s, width .3s;
+    }
+    .step-dot.active {
+      background: var(--blue);
+      width: 22px;
+      border-radius: 4px;
+    }
+
+    /* Panel transitions */
+    .auth-panel { animation: fadeUp .3s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SIGN UP HORIZONTAL ─── */
+    #signup .modal-dialog { max-width: 900px; }
+    #signup .modal-content { border-radius: 20px; }
+
+    .signup-header {
+      background: linear-gradient(135deg, var(--blue) 0%, #5b21b6 100%);
+      padding: 1.75rem 2rem 1.25rem;
+      color: #fff;
+    }
+    .signup-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+    .signup-header p { font-size: .82rem; opacity: .8; margin: .25rem 0 0; }
+
+    .signup-body { padding: 1.75rem 2rem; }
+
+    .signup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 1.5rem;
+    }
+    .signup-grid .full-col { grid-column: 1 / -1; }
+
+    .divider-label {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin: .25rem 0 .75rem;
+    }
+    .divider-label::before, .divider-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .role-cards {
+      display: flex;
+      gap: .75rem;
+    }
+    .role-card {
+      flex: 1;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: .65rem .9rem;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .85rem;
+      font-weight: 500;
+    }
+    .role-card input[type=radio] { accent-color: var(--blue); }
+    .role-card:has(input:checked) {
+      border-color: var(--blue);
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+    .role-icon { font-size: 1.1rem; }
+
+    /* success toast */
+    .auth-toast {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: #fff;
+      border-left: 4px solid var(--success);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+      padding: .9rem 1.25rem;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--ink);
+      display: none;
+      z-index: 9999;
+      animation: fadeUp .3s ease;
+    }
+    .auth-toast.show { display: flex; align-items: center; gap: .6rem; }
+    .auth-toast::before { content: '✓'; color: var(--success); font-weight: 700; }
+
+    /* Misc */
+    .back-btn {
+      background: none; border: none; padding: 0;
+      color: var(--blue); font-size: .82rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: .3rem;
+      margin-bottom: 1.2rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-close { opacity: .6; }
+    .btn-close:hover { opacity: 1; }

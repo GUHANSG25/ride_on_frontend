@@ -1,0 +1,19 @@
+.review-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 0 40px;
+}
+
+.review-card {
+    flex: 1;
+    min-width: 220px;
+    max-width: 260px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    background: var(--white);
+}
+
+.review-card p  { margin-bottom: 10px; }
+.review-card h5 { margin: 0; font-weight: 600; }

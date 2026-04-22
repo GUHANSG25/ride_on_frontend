@@ -1,0 +1,201 @@
+/* TripCard.css */
+
+.trip-card {
+  background: #ffffff;
+  border: 1px solid #eeece6;
+  border-radius: 12px;
+  padding: 14px 20px 12px;
+  margin-bottom: 10px;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.trip-card:hover {
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.07);
+  transform: translateY(-1px);
+}
+
+/* ── Top row ─────────────────────────────── */
+.trip-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Left — bus info */
+.trip-card__info {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+
+.trip-card__bus-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2c2c2a;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.trip-card__bus-type {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;              
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+
+  background-color: #888780;   
+  padding: 4px 10px;           
+  border-radius: 20px;       
+  display: inline-block;      
+}
+
+/* Center — timing */
+.trip-card__timing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.trip-card__time {
+  font-size: 17px;
+  font-weight: 700;
+  color: #2c2c2a;
+  letter-spacing: 0.4px;
+}
+
+.trip-card__route-line {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.trip-card__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2c2c2a;
+  flex-shrink: 0;
+}
+
+.trip-card__dashes {
+  width: 80px;
+  border-top: 2px dashed #c8c6be;
+}
+
+.trip-card__duration {
+  font-size: 10px;
+  color: #888780;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+  margin-top: -6px;
+}
+
+/* Right — fare */
+.trip-card__fare {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 80px;
+}
+
+.trip-card__price {
+  font-size: 17px;
+  font-weight: 700;
+  color: #2c2c2a;
+}
+
+.trip-card__onwards {
+  font-size: 10px;
+  color: #888780;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+/* ── Divider ─────────────────────────────── */
+.trip-card__divider {
+  border: none;
+  border-top: 1px solid #f1efe8;
+  margin: 10px 0 8px;
+}
+
+/* ── Bottom row ──────────────────────────── */
+.trip-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+}
+
+.trip-card__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #1d9e75;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.trip-card__view-btn {
+  background: #e24b4a;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 7px 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.trip-card__view-btn:hover {
+  background: #c93a39;
+}
+
+.trip-card__view-btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 600px) {
+  .trip-card {
+    padding: 12px 14px 10px;
+  }
+
+  .trip-card__top {
+    flex-wrap: wrap;
+  }
+
+  .trip-card__info {
+    min-width: unset;
+    flex: 1;
+  }
+
+  .trip-card__fare {
+    align-items: flex-end;
+    min-width: unset;
+  }
+
+  .trip-card__timing {
+    order: 3;
+    width: 100%;
+    border-top: 1px solid #f1efe8;
+    padding-top: 8px;
+    margin-top: 4px;
+  }
+
+  .trip-card__dashes {
+    width: 50px;
+  }
+}
