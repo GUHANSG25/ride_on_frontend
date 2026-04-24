@@ -15,7 +15,7 @@ export default function SearchTripList({ trips, loading, error }) {
         <TripCard
           key={trip.tripId ?? index}
           trip={trip}
-          onViewSeats={(t) => navigate(`/seats/${t.tripId}`)}
+          onViewSeats={(t) => { localStorage.setItem('selectedTrip', JSON.stringify(t)); navigate(`/seats/${t.tripId}`); }}
         />
       ))}
     </div>

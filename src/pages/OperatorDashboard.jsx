@@ -14,6 +14,11 @@ import { useDispatch } from "react-redux";
 import { fetchBuses } from "../features/Bus/Slice/BusSlice";
 import { fetchTrip } from "../features/trip/Slice/TripSlice";
 import TopBar from "../components/common/TopBar";
+import { fetchUserProfile } from "../features/profile/slice/ProfileSlice";
+import ProfileCard from "../features/profile/components/ProfileCard";
+import {PieChart,Pie,CartesianGrid,Tooltip,ResponsiveContainer,Cell} from "recharts";
+import { LineChart, Line, XAxis, YAxis } from "recharts";
+
 
 const titles = {
   dashboard: "Operator Dashboard",
@@ -22,7 +27,8 @@ const titles = {
   routes: "View Routes",
   schedule: "Schedule Trip",
   trips: "Assigned Trips",
-  bookings: "View Bookings"
+  bookings: "View Bookings",
+  profile: "My Profile",
 };
 
 const operatorNavItems = [
@@ -37,11 +43,13 @@ const operatorNavItems = [
   { label: "Assigned Trips", key: "trips" },
   { label: "Bookings", type: "section" },
   { label: "View Bookings", key: "bookings" },
+  { label: "My Profile", key:"profile"},
 ];
 
 
 export default function OperatorDashboard() {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const { profile, loading, error } = useSelector((state) => state.profile); 
 
   const [showModal, setShowModal] = useState(false);
 
@@ -53,6 +61,7 @@ export default function OperatorDashboard() {
   const totalBuses = buses?.length ?? 0;
   const availableBuses = buses?.filter(b => b.busStatus === "Active")?.length ?? 0;
   const tripsScheduled = trips?.length ?? 0;
+  const UnAvailableBuses = buses?.filter(b => b.busStatus === "InActive")?.length ?? 0;
 
   const stats = [
     { label: "Total Buses", value: totalBuses, sub: "In your fleet", type: "pos" },
@@ -60,9 +69,30 @@ export default function OperatorDashboard() {
     { label: "Trips Scheduled", value: tripsScheduled, sub: "This week", type: "neu" },
   ];
 
+  const pieChartData = [
+    {name : "Active Buses",value:availableBuses},
+    {name : "InActive Buses",value:UnAvailableBuses},
+    {name: "Total Buses",value:totalBuses}
+  ]
+
+  const grouped = {};
+
+  const COLORS = ["#28a745", "#dc3545","#dc3"]; // green, red
+
+  trips?.forEach(trip => {
+    const date = trip.departureDate || "Unknown";
+    grouped[date] = (grouped[date] || 0) + 1;
+  });
+
+  const data = Object.keys(grouped).map(date => ({
+    date,
+    trips: grouped[date]
+  }));
+
   useEffect(() => {
     dispatch(fetchBuses());
     dispatch(fetchTrip());
+    dispatch(fetchUserProfile());
   }, [dispatch]);
 
   return (
@@ -71,7 +101,7 @@ export default function OperatorDashboard() {
 
       <main className="main">
 
-       <TopBar activeSection={activeSection}/>
+       <TopBar profile={profile}/>
 
         {/* Content */}
         <div className="content">
@@ -80,6 +110,35 @@ export default function OperatorDashboard() {
             <div className="page-head"><h1>Operator Dashboard</h1><p>Overview of your system</p></div>
             <div className="gap-2">
             <StatsGrid stats={stats}/>
+            
+            <div className="d-flex gap-2">
+              <div style={{ width: "100%", height: 300 }}>
+                <h4>Bus Status</h4>
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie data={pieChartData} dataKey="value" outerRadius={100} label>
+                      {pieChartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div style={{ width: "100%", height: 300 }}>
+                <h4>Trips Scheduled</h4>
+                <ResponsiveContainer>
+                  <LineChart data={data}>
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="trips" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div><br></br><br></br>
+            
               <div><h3 style={{ fontWeight: "800", fontSize: "20px" }}>
                 Your Buses</h3> <hr></hr>
                   <BusList/><hr></hr>
@@ -127,13 +186,16 @@ export default function OperatorDashboard() {
               <h1>Assigned Trips</h1>
               <p>View The Assigned trips</p>
               <TripList/>
-            </div>
+            </div>  
           </div>
           <div className={`section ${activeSection === "bookings" ? "active" : ""}`}>
             <div className="page-head"><h1>View Bookings</h1><p>View The Bookings done by customer</p></div>
+            </div>
+            <div className={`section ${activeSection === "profile" ? "active" : ""}`}>
+              <ProfileCard/>
+            </div>
           </div>
-        </div>
-
+          
       </main>
 
     </div>

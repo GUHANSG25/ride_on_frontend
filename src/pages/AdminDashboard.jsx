@@ -12,9 +12,12 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetchPendingOperators } from "../features/operator/slice/OperatorSlice";
 import {BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
+import { fetchUserProfile } from "../features/profile/slice/ProfileSlice";
+import ProfileCard from "../features/profile/components/ProfileCard";
 
 export default function AdminDashboard() {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const { profile, loading, updating, error } = useSelector((s) => s.profile);
 
   const titles = {
     dashboard: "Admin Dashboard",
@@ -23,6 +26,7 @@ export default function AdminDashboard() {
     feedback: "Customer Feedback",
     reports: "Revenue Reports",
     cancellations: "Cancellations",
+    profile: "My Profile",
   };
 
   const adminNavItems = [
@@ -35,6 +39,7 @@ export default function AdminDashboard() {
     { label: "Customer Feedback", key: "feedback" },
     { label: "Revenue Reports", key: "reports" },
     { label: "Cancellations", key: "cancellations" },
+    { label : "My Profile", key: "profile"},
   ];
 
   const {list : routes} = useSelector((state) => state.route);
@@ -61,13 +66,14 @@ export default function AdminDashboard() {
     dispatch(fetchRoute());
     dispatch(fetchOperators());
     dispatch(fetchPendingOperators());
+    dispatch(fetchUserProfile());
   }, [dispatch]);
 
   return (
     <div>
       <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} navItems={adminNavItems} /> 
       <main className="main">
-        <TopBar activeSection={activeSection}/>
+        <TopBar profile={profile}/>
 
         <div className="content">
           {activeSection === "dashboard" && (
@@ -118,6 +124,9 @@ export default function AdminDashboard() {
           {activeSection === "cancellations" && (
             <div className="page-head"><h1>Cancellations</h1><p>Monitor cancellation trends</p>
             <p>under development</p></div>
+          )}
+          {activeSection === "profile" && (
+            <ProfileCard/>
           )}
         </div>
       </main>

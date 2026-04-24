@@ -55,7 +55,7 @@ export default function ProfileCard() {
     // Map draft keys back to what the API expects
     await dispatch(updateUserProfile({
       userName: draft.name,
-      email:    draft.email,
+      email: draft.email,
     }));
     setEditing(false);
   };

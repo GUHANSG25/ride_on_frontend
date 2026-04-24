@@ -21,6 +21,8 @@ export default function SearchBus() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const { trips, loading, error } = useSelector((state) => state.trip);
+  // const [query, setQuery] = useState("");
+
 
   const [filtered, setFiltered]         = useState([]);
   const [activeFilter, setActiveFilter] = useState(null);
@@ -41,6 +43,14 @@ export default function SearchBus() {
   useEffect(() => {
     setFiltered(trips || []);
   }, [trips]);
+
+  // const filtered = data.filter((row) => {
+  //   if (!query || !searchFields?.length) return true;
+  //   const q = query.toLowerCase();
+  //   return searchFields.some((field) =>
+  //     row[field]?.toString().toLowerCase().includes(q)
+  //   );
+  // });
 
   const handleSearch = (from, to, travelDate) => {
     setSearchParams({ from, to, date: travelDate });
@@ -104,6 +114,8 @@ export default function SearchBus() {
             </button>
           ))}
         </div>
+        {/* <Search searchFields={searchFields} query={query} onQueryChange={setQuery}/> */}
+        
       </div>
 
       <div className="bus-page-layout">
