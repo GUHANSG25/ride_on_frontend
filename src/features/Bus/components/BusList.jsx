@@ -23,7 +23,7 @@ export default function BusList() {
     {
       key: "busStatus", label: "Current status", width: 120,
       render: (b) => (
-        <span className={`badge ${b.busStatus === "Active" ? "bg-success" : b.busStatus === "InActive" ? "bg-secondary" : "bg-warning text-dark"}`}
+        <span className={`badge ${b.busStatus === "Active" ? "bg-success" : b.busStatus === "InActive" ? "bg-secondary" : "bg-danger"}`}
           style={{ fontSize: 12, padding: "4px 10px" }}>
           {b.busStatus}
         </span>
@@ -34,14 +34,12 @@ export default function BusList() {
       render: (b) =>
         b.busStatus !== "InActive" ? (
           <div className="d-flex gap-2">
-          <button  style={{ fontSize: 12, padding: "4px 8px" }} className="btn btn-warning" >Edit</button>
-          <button  style={{ fontSize: 12, padding: "4px 8px" }} className="btn btn-danger" 
+          <button  style={{ fontSize: 12, padding: "4px 8px" }} className="btn btn-warning" 
           onClick={async () => {await dispatch(deactivateBus(b.busId)); await dispatch(fetchBuses());}}>Deactivate</button>
           </div>
         ) : (
           <div className="d-flex gap-2">
-          <button  style={{ fontSize: 12, padding: "4px 8px" }} className="btn btn-warning" >Edit</button>
-          <button  style={{ fontSize: 12, padding: "4px 8px" }} className="btn btn-success btn-sm">Activate</button>
+          <button  style={{ fontSize: 12, padding: "4px 8px" }} className="btn btn-danger">Deactivated</button>
           </div>
         ),
     },

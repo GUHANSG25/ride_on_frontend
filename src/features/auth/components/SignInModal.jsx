@@ -67,7 +67,9 @@ export default function SignInModal({ open, onClose, onSwitchSignUp }) {
       const errs = {};
       if (status === 404) {
         errs.mobile = "This mobile number is not registered. Please sign up first.";
-      } else {
+      }else if(status === 406){
+        showToast("Your status is still pending. Please try again.");
+      }else {
         showToast("Failed to send OTP. Please try again.");
       }
       setErrors(errs);
@@ -77,12 +79,20 @@ export default function SignInModal({ open, onClose, onSwitchSignUp }) {
   }
 
   async function handleVerifyOtp() {
-    if (otp.length < 6) { setErrors({ otp: "Enter the 6-digit OTP." }); return; }
+    if (otp.length < 6) { 
+      setErrors({ otp: "Enter the 6-digit OTP." }); 
+    return; 
+    }
     setLoading(true);
     try {
       await verifyOtp(otp);
       onClose();
-    } catch {
+    } catch (error) {
+      const status = error?.response?.status;
+      console.log(status);
+      if(status === 400){
+        showToast("Invalid OTP. Please try again.");
+      }
       setErrors({ otp: "Invalid OTP. Please try again." });
     } finally {
       setLoading(false);

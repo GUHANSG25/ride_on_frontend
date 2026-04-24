@@ -36,17 +36,17 @@ export default function AddBus({ show, onClose }) {
     <AddNewModal show={show} onClose={onClose} title="Add New Bus" onSubmit={handleSubmit} submitLabel="Add Bus">
       <div className="row g-3">
         <div className="col-6">
-          <label className="form-label small">Bus Name *</label>
+          <label className="form-label small">Bus Name <span style={{ color: "red" }}>*</span></label>
           <input name="busName" className="form-control form-control-sm" placeholder="e.g. BMW 2"
             value={form.busName} onChange={handleChange} />
         </div>
         <div className="col-6">
-          <label className="form-label small">Bus Number *</label>
+          <label className="form-label small">Bus Number <span style={{ color: "red" }}>*</span></label>
           <input name="busNumber" className="form-control form-control-sm" placeholder="e.g. TN33YE1234"
             value={form.busNumber} onChange={handleChange} />
         </div>
         <div className="col-6">
-          <label className="form-label small">Bus Type *</label>
+          <label className="form-label small">Bus Type <span style={{ color: "red" }}>*</span></label>
           <select name="busType" className="form-select form-select-sm" value={form.busType} onChange={handleChange}>
             <option value="SEATER">Seater</option>
             <option value="SLEEPER">Sleeper</option>
@@ -54,12 +54,12 @@ export default function AddBus({ show, onClose }) {
           </select>
         </div>
         <div className="col-6">
-          <label className="form-label small">Total Seats *</label>
+          <label className="form-label small">Total Seats <span style={{ color: "red" }}>*</span></label>
           <input name="totalSeat" type="number" className="form-control form-control-sm" placeholder="e.g. 30"
             value={form.totalSeat} onChange={handleChange} />
         </div>
         <div className="col-12">
-          <label className="form-label small">Amenities</label>
+          <label className="form-label small">Amenities </label>
           <input name="amenity" className="form-control form-control-sm" placeholder="e.g. AC, Charging port"
             value={form.amenity} onChange={handleChange} />
         </div>

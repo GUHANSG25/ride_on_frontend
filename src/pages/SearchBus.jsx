@@ -30,7 +30,6 @@ export default function SearchBus() {
   const destination = searchParams.get('to')    || '';
   const date        = searchParams.get('date')  || '';
 
-  // Fetch whenever URL params change
   useEffect(() => {
     if (source && destination && date) {
       dispatch(searchTrip({ source, destination, date }));
@@ -39,12 +38,10 @@ export default function SearchBus() {
     }
   }, [source, destination, date]);
 
-  // Sync filtered list when trips from Redux change
   useEffect(() => {
     setFiltered(trips || []);
   }, [trips]);
 
-  // Called by SearchBox on this page — update URL params (triggers re-fetch via useEffect)
   const handleSearch = (from, to, travelDate) => {
     setSearchParams({ from, to, date: travelDate });
   };
@@ -56,7 +53,7 @@ export default function SearchBus() {
   const base = next
       ? (trips || []).filter((t) => {
           const busType = t.busType?.toUpperCase();
-          const amenity  = t.amenity?.toUpperCase();
+          const amenity = t.amenity?.toUpperCase();
           return busType === next || amenity === next;
         })
       : (trips || []);
@@ -73,8 +70,8 @@ export default function SearchBus() {
   const applySorting = (list, sortId) => {
     if (!sortId) return [...list];
     return [...list].sort((a, b) => {
-      if (sortId === 'price')    return a.fare - b.fare;
-      if (sortId === 'timing')   return (a.departureTime || '').localeCompare(b.departureTime || '');
+      if (sortId === 'price') return a.fare - b.fare;
+      if (sortId === 'timing') return (a.departureTime || '').localeCompare(b.departureTime || '');
       if (sortId === 'duration') return calcMins(a) - calcMins(b);
       return 0;
     });
@@ -94,7 +91,6 @@ export default function SearchBus() {
       <Hero />
       <SearchBox onSearch={handleSearch} />
 
-      {/* Sort bar */}
       <div className="sortby-bar">
         <span className="sortby-label">Sort by:</span>
         <div className="sortby-pills">
@@ -110,7 +106,6 @@ export default function SearchBus() {
         </div>
       </div>
 
-      {/* Layout: sidebar + results */}
       <div className="bus-page-layout">
 
         <aside className="filter-sidebar">

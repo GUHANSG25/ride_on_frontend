@@ -11,6 +11,7 @@ import { fetchRoute } from "../features/route/slice/RouteSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetchPendingOperators } from "../features/operator/slice/OperatorSlice";
+import {BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
 
 export default function AdminDashboard() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -46,6 +47,10 @@ export default function AdminDashboard() {
   const activeOperator = operators?.filter(o => o.userStatus === "Active")?.length ?? 0;
   const pendingOperator = pending?.length ?? 0;
 
+  const barChartData = [
+   {name : "activeOperator", value : activeOperator},
+   {name : "pendingOperator", value : pendingOperator}];
+
   const stats = [
     { label: "Total Routes", value: totalRoutes, sub: "In your fleet", type: "pos" },
     { label: "Active Operators", value: activeOperator, sub: "Ready to assign", type: "pos" },
@@ -70,8 +75,20 @@ export default function AdminDashboard() {
             <div className="page-head"><h1>Admin Dashboard</h1><p>Overview of your system</p></div>
             <div className="gap-2">
               <StatsGrid stats={stats}/>
+              <div className="page-head"><h1>Operators Stats</h1></div>
+              <div style={{ width: "50%", height: 300, marginTop: "1rem" }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={barChartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis allowDecimals={false} />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#4f46e5" radius={[6, 6, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div><hr></hr>
               <div><h3 style={{ fontWeight: "800", fontSize: "20px" }}>
-                Pending Operators Approval</h3> <hr></hr>
+                Pending Operators Approval</h3> <br></br>
               <PendingOperators/>
               </div>
             </div>

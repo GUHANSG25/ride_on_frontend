@@ -34,41 +34,32 @@ export function AuthProvider({ children }){
     };
 
     const verifyOtp = async (otp) => {
-        try{
-            const res = await axios.post("/otp/verify",{
-                mobile,
-                otp,
-                purpose,
-            });
+        const res = await axios.post("/otp/verify",{mobile,otp,purpose,});
+        if(purpose === "LOGIN"){
+            const token = res.data.token;
+            const refreshToken = res.data.refreshToken;
 
-            if(purpose === "LOGIN"){
-                const token = res.data.token;
-                const refreshToken = res.data.refreshToken;
-
-                const decoded = jwtDecode(token);
-                const role = decoded.role;
+            const decoded = jwtDecode(token);
+            const role = decoded.role;
                 
-                localStorage.setItem("token",token);
-                localStorage.setItem("refreshToken",refreshToken);
-                localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("token",token);
+            localStorage.setItem("refreshToken",refreshToken);
+            localStorage.setItem("isLoggedIn", "true");
                 
-                setauth({token,refreshToken,mobile});
+            setauth({token,refreshToken,mobile});
 
-                if(role === "ROLE_CUSTOMER"){
-                    navigate("/home");
-                    setTimeout(() => window.location.reload(), 100);
-                }else if(role === "ROLE_OPERATOR"){
-                    navigate("/operator/dashboard");
-                }else{
-                    navigate("/admin/dashboard");
-                }
+            if(role === "ROLE_CUSTOMER"){
+                navigate("/home");
+                setTimeout(() => window.location.reload(), 100);
+            }else if(role === "ROLE_OPERATOR"){
+                navigate("/operator/dashboard");
+            }else{
+                navigate("/admin/dashboard");
             }
-            else if(purpose === "SIGNUP"){
-                setOtpReady(false);
-                return { success: true };
-            }
-        }catch(error){
-            console.log(error);
+        }
+        else if(purpose === "SIGNUP"){
+            setOtpReady(false);
+            return { success: true };
         }
     };
 

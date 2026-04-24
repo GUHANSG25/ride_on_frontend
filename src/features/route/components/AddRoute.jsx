@@ -18,22 +18,22 @@ export default function AddRoute({ show, onClose }) {
     <AddNewModal show={show} onClose={onClose} title="Add New Route" onSubmit={handleSubmit} submitLabel="Add Route">
       <div className="row g-3">
         <div className="col-6">
-          <label className="form-label small">Source City *</label>
+          <label className="form-label small">Source City <span style={{ color: "red" }}>*</span></label>
           <input name="source" className="form-control form-control-sm" placeholder="e.g. Mumbai"
             value={form.source} onChange={handleChange} />
         </div>
         <div className="col-6">
-          <label className="form-label small">Destination City *</label>
+          <label className="form-label small">Destination City <span style={{ color: "red" }}>*</span></label>
           <input name="destination" className="form-control form-control-sm" placeholder="e.g. Pune"
             value={form.destination} onChange={handleChange} />
         </div>
         <div className="col-6">
-          <label className="form-label small">Distance (km)</label>
+          <label className="form-label small">Distance (km) <span style={{ color: "red" }}>*</span></label>
           <input name="distance" type="number" className="form-control form-control-sm" placeholder="e.g. 148"
             value={form.distance} onChange={handleChange} />
         </div>
         <div className="col-6">
-          <label className="form-label small">Estimated time</label>
+          <label className="form-label small">Estimated time <span style={{ color: "red" }}>*</span></label>
           <input name="estimatedTime" type="time" className="form-control form-control-sm" placeholder="e.g. 02:00"
             value={form.estimatedTime} onChange={handleChange} />
         </div>

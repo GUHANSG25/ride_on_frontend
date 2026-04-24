@@ -29,6 +29,7 @@ export const deactivateBus = createAsyncThunk("bus/deactive",async(id,thunkAPI) 
     }
 });
 
+
 export const updateBusStatus = createAsyncThunk("bus/update",async ({ id, status }, thunkAPI) => {
     try {
       return await BusService.updateBus(id,status);

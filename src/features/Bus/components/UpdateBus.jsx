@@ -22,7 +22,7 @@ export default function UpdateBus() {
     {
       key: "busStatus", label: "Current status", width: 130,
       render: (b) => (
-        <span className={`badge ${b.busStatus === "Active" ? "bg-success" : b.busStatus === "InActive" ? "bg-secondary" : "bg-warning text-dark"}`}
+        <span className={`badge ${b.busStatus === "Active" ? "bg-success" : b.busStatus === "InActive" ? "bg-secondary" : "bg-danger"}`}
           style={{ fontSize: 12, padding: "4px 10px" }}>
           {b.busStatus}
         </span>

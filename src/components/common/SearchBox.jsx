@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/global.css';
+import Toast from '../common/Toast'
 
 export default function SearchBox({ onSearch }) {
   const navigate = useNavigate();
+  const[toast,setToast] = useState(null);
+
+  const showToast = (msg) => {
+    setToast({msg});
+    setTimeout(() => setToast(null),3000);
+  }
 
   const [from, setFrom] = useState('');
   const [to, setTo]     = useState('');
@@ -18,7 +25,7 @@ export default function SearchBox({ onSearch }) {
 
   const handleSearch = () => {
     if (!from.trim() || !to.trim() || !date) {
-      alert('Please fill in all fields.');
+      showToast('Please fill in all fields.');
       return;
     }
     if (onSearch) {
@@ -65,6 +72,7 @@ export default function SearchBox({ onSearch }) {
           </div>
         </div>
       </div>
+      <Toast toast={toast}/>
     </section>
   );
 }

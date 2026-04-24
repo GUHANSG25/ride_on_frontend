@@ -66,19 +66,19 @@ export default function AddTrip({ show, onClose }) {
           <div className="panel-body">
             <div className="form-grid">
               <div className="form-group">
-                <label className="form-label">Bus ID *</label>
+                <label className="form-label">Bus ID <span style={{ color: "red" }}>*</span></label>
                 <input className="form-input" type="number" name="busId" value={form.busId} 
                 placeholder="Enter bus ID" onChange={handleChange}/>
               </div>
 
               <div className="form-group">
-                <label className="form-label">Route ID *</label>
+                <label className="form-label">Route ID <span style={{ color: "red" }}>*</span></label>
                 <input className="form-input" type="number" name="routeId"
                   value={form.routeId} placeholder="Enter route ID" onChange={handleChange}/>
               </div>
 
               <div className="form-group">
-                <label className="form-label">Departure Date *</label>
+                <label className="form-label">Departure Date <span style={{ color: "red" }}>*</span></label>
                 <input className="form-input" type="date" name="departureDate"
                   value={form.departureDate} onChange={handleChange}
                 />
@@ -86,14 +86,14 @@ export default function AddTrip({ show, onClose }) {
 
               <div className="field-row">
                 <div className="form-group">
-                  <label className="form-label">Departure Time *</label>
+                  <label className="form-label">Departure Time <span style={{ color: "red" }}>*</span></label>
                   <input className="form-input" type="time" name="departureTime"
                     value={form.departureTime} onChange={handleChange}
                   />
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Arrival Time *</label>
+                  <label className="form-label">Arrival Time <span style={{ color: "red" }}>*</span></label>
                   <input className="form-input" type="time" name="arrivalTime"
                     value={form.arrivalTime} onChange={handleChange}
                   />
@@ -101,7 +101,7 @@ export default function AddTrip({ show, onClose }) {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Price (₹) *</label>
+                <label className="form-label">Price (₹) <span style={{ color: "red" }}>*</span></label>
                 <input className="form-input" type="number" name="fare" placeholder="e.g. 450"
                   value={form.fare} onChange={handleChange}
                 />
