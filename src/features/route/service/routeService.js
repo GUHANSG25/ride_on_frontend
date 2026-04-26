@@ -2,8 +2,8 @@ import axios from '../../../api/axiosInstance';
 
 const RouteService = {
 
-  getAll: async () => {
-    const res = await axios.get("/routes");
+  getAll: async (page = 0, size = 5) => {
+    const res = await axios.get(`/routes?page=${page}&size=${size}`);
     return res.data;
   },
 

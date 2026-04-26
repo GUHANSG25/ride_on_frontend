@@ -5,6 +5,7 @@ import busReducer from '../features/Bus/Slice/BusSlice'
 import tripReducer from '../features/trip/Slice/TripSlice'
 import profileReducer from '../features/profile/slice/ProfileSlice'
 import bookingReducer from '../features/booking/Slice/BookingSlice'
+import paymentReducer from '../features/payment/slice/paymentSlice'
 
 const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
         trip: tripReducer,
         profile: profileReducer,
         booking: bookingReducer,
+        payment: paymentReducer,
     }
 })
 

@@ -17,14 +17,11 @@ export default function TripCard({ trip, onViewSeats }) {
     <div className="trip-card">
       <div className="trip-card__top">
 
-        {/* Left — bus info */}
         <div className="trip-card__info">
           <span className="trip-card__bus-name">{trip.operatorName}</span>
           <span className="font-monospace text-muted">{trip.busName}</span>
-          
         </div>
 
-        {/* Center — timing */}
         <div className="trip-card__timing">
           <span className="trip-card__time">{trip.departureTime?.slice(0, 5)}</span>
           <div className="trip-card__route-line">
@@ -36,7 +33,6 @@ export default function TripCard({ trip, onViewSeats }) {
           {duration && <span className="trip-card__duration">{duration}</span>}
         </div>
 
-        {/* Right — fare */}
         <div className="trip-card__fare">
           <span className="trip-card__price">₹{trip.fare}</span>
           <span className="trip-card__onwards">ONWARDS</span>
@@ -46,8 +42,8 @@ export default function TripCard({ trip, onViewSeats }) {
 
       <div className="trip-card__divider" />
 
-      <div className="trip-card__bottom"> 
-        <div style={{display: "flex", gap: "6px"}}>
+      <div className="trip-card__bottom">
+        <div style={{ display: "flex", gap: "6px" }}>
           <span className="trip-card__bus-type">
             {[trip.busType, trip.acType].filter(Boolean).join(" | ")}
           </span>
@@ -55,7 +51,15 @@ export default function TripCard({ trip, onViewSeats }) {
             {[trip.amenity].filter(Boolean).join(" | ")}
           </span>
         </div>
-        <button className="trip-card__view-btn" onClick={() => onViewSeats?.(trip)}>
+
+        {/* ✅ Just call the prop — navigation is handled by SearchTripList */}
+        <button
+          className="trip-card__view-btn"
+          onClick={() => {
+            localStorage.setItem("selectedTrip", JSON.stringify(trip));
+            onViewSeats?.(trip);
+          }}
+        >
           VIEW SEATS
         </button>
       </div>

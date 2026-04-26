@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from '../../../api/axiosInstance'
 import RouteService from '../service/routeService';
 
-export const fetchRoute = createAsyncThunk("route/fetchAll", async (_, thunkAPI) => {
+export const fetchRoute = createAsyncThunk("route/fetchAll", async ({page,size}, thunkAPI) => {
   try {
-    return await RouteService.getAll();
+    return await RouteService.getAll(page,size);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch routes");
   }
@@ -38,6 +38,10 @@ const routeSlice = createSlice({
   name: "route",
   initialState: {
     list: [],
+    page:0,
+    size:5,
+    totalPages: 0,
+    totalElements: 0,
     loading: false,
     error: null,
   },
@@ -52,7 +56,11 @@ const routeSlice = createSlice({
       })
       .addCase(fetchRoute.fulfilled,(state, action) => { 
         state.loading = false; 
-        state.list = action.payload;
+        state.list = action.payload.content;
+        state.size = action.payload.size;
+        state.page = action.payload.number;
+        state.totalPages = action.payload.totalPages;
+        state.totalElements = action.payload.totalElements;
       })
       .addCase(fetchRoute.rejected,(state, action) => { 
         state.loading = false; 

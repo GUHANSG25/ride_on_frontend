@@ -10,6 +10,9 @@ import MyBookings from './pages/MyBookings.jsx'
 import ProtectedRoute from './components/common/ProtectedRoute.jsx'
 import SearchBus from './pages/SearchBus.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
+import SelectSeats from './pages/SelectSeats.jsx'
+import BookingSuccess from './pages/BookingSuccess.jsx'   // ← NEW
+
 
 function App() {
   return (
@@ -32,6 +35,8 @@ function App() {
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/booking' element={<MyBookings/>}/>
       <Route path='/search' element={<SearchBus/>}/>
+      <Route path='/seats/:tripId' element={<SelectSeats/>}/>
+      <Route path='/booking-success'  element={<BookingSuccess />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
     </>

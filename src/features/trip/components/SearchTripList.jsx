@@ -1,4 +1,3 @@
-// SearchTripList.jsx
 import TripCard from './TripCard';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,13 +8,19 @@ export default function SearchTripList({ trips, loading, error }) {
   if (error)   return <p className="trip-list-state" style={{ color: "#e24b4a" }}>{error}</p>;
   if (!trips?.length) return <p className="trip-list-state">No buses found for this route.</p>;
 
+  const handleViewSeats = (trip) => {
+    // Pass trip via router state — no localStorage needed
+    console.log(trip);
+    navigate(`/seats/${trip.tripId}`, { state: { trip } });
+  };
+
   return (
     <div>
       {trips.map((trip, index) => (
         <TripCard
           key={trip.tripId ?? index}
           trip={trip}
-          onViewSeats={(t) => { localStorage.setItem('selectedTrip', JSON.stringify(t)); navigate(`/seats/${t.tripId}`); }}
+          onViewSeats={handleViewSeats}
         />
       ))}
     </div>

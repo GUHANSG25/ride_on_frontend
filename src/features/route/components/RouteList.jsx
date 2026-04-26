@@ -7,22 +7,22 @@ import AddRoute from "./AddRoute";
 
 export default function RouteList() {
   const dispatch = useDispatch();
-  const { list, loading, error } = useSelector((state) => state.route);
+  const { list, loading, error,page,totalPages } = useSelector((state) => state.route);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => { dispatch(fetchRoute()); }, [dispatch]);
+  useEffect(() => { dispatch(fetchRoute({page:0, size:5})); }, [dispatch]);
 
   const handleDeactivate = async (id) => {
     if (window.confirm("Deactivate this route?")) {
       await dispatch(deactivateRoute(id));
-      await dispatch(fetchRoute());
+      await dispatch(fetchRoute({page,size}));
     }
   };
 
   const handleActivate = async (id) => {
     if (window.confirm("Activate this route?")) {
       await dispatch(activateRoute(id));
-      await dispatch(fetchRoute());
+      await dispatch(fetchRoute({page,size}));
     }
   };
 
@@ -68,7 +68,10 @@ export default function RouteList() {
         rowKey="routeId"
         loading={loading}
         error={error}
+        page={page}
+        totalPages={totalPages}
         onDismissError={() => dispatch(clearError())}
+        onPageChange={(newPage) => dispatch(fetchRoute({ page: newPage, size: 5 }))}
         searchFields={["source"]}
         emptyMessage="No routes found."
       />

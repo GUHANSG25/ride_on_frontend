@@ -162,3 +162,29 @@ tr:hover td { background: #fafbff; }
   color: #fff;
   box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
 }
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.pagination button.active {
+  background: #2563eb;
+  color: white;
+  border: none;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

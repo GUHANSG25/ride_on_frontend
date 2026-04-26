@@ -1,0 +1,20 @@
+import axios from '../../../api/axiosInstance';
+
+const PaymentService = {
+
+  // Creates a Razorpay order → returns { razorpayOrderId, amount, currency, keyId, bookingRef }
+  createOrder: async (totalFare) => {
+    const res = await axios.post('/payment/order', { totalFare });
+    return res.data;
+  },
+
+  // Verifies payment signature + confirms booking + saves passengers atomically
+  // payload: { bookingRef, razorpayOrderId, razorpayPaymentId, razorpaySignature, paymentMethod, passengers }
+  verifyAndConfirm: async (payload) => {
+    const res = await axios.post('/payment/verify', payload);
+    return res.data;
+  },
+
+};
+
+export default PaymentService;
