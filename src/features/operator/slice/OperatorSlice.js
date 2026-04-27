@@ -1,11 +1,10 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import axios from '../../../api/axiosInstance'
+import OperatorService from '../service/OperatorService';
 
-export const fetchOperators = createAsyncThunk("operator/fetchAll",async(_,thunkAPI) => {
+export const fetchOperators = createAsyncThunk("operator/fetchAll",async({page,size},thunkAPI) => {
     try{
-        const res = await axios.get("/operators");
-        // console.log(res.data);
-        return res.data;
+        return await OperatorService.getAll(page,size);
     }catch(error){
         return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to fetch operators"
@@ -16,8 +15,7 @@ export const fetchOperators = createAsyncThunk("operator/fetchAll",async(_,thunk
 
 export const saveOperator = createAsyncThunk("operator/save", async (operatorData, thunkAPI) => {
   try{
-    const res = await axios.post("/operators",operatorData);
-    return res.data;
+    return await OperatorService.save(operatorData);
   }catch (error){
     return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to save operator");
   }
@@ -35,9 +33,7 @@ export const deactivateOperator = createAsyncThunk("operator/deactive",async(id,
 
 export const fetchPendingOperators = createAsyncThunk("pendingoperator/fetchAll",async(_,thunkAPI) => {
     try{
-        const res = await axios.get("/operators/pending");
-        // console.log(res.data);
-        return res.data;
+        return await OperatorService.pendingOp();
     }catch(error){
         return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to fetch pending operators"
@@ -60,6 +56,10 @@ const operatorSlice = createSlice({
     name: "operator",
     initialState:{
         list: [],
+        page:0,
+        size:5,
+        totalPages: 0,
+        totalElements: 0,
         pendinglist: [],
         loading: false,
         error: null,
@@ -77,7 +77,11 @@ const operatorSlice = createSlice({
         })
         .addCase(fetchOperators.fulfilled, (state, action) => {
         state.loading = false;
-        state.list = action.payload;
+        state.list = action.payload.content;
+        state.size = action.payload.size;
+        state.page = action.payload.number;
+        state.totalPages = action.payload.totalPages;
+        state.totalElements = action.payload.totalElements;
         })
         .addCase(fetchOperators.rejected, (state, action) => {
         state.loading = false;

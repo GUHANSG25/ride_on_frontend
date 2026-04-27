@@ -3,7 +3,7 @@ export default function BookingDetail({ booking, onClose }) {
 
   const statusConfig = {
     CONFIRMED: { label: 'Confirmed', cls: 'status-confirmed' },
-    PENDING:   { label: 'Pending',   cls: 'status-pending'   },
+    PENDING: { label: 'Pending',   cls: 'status-pending'   },
     CANCELLED: { label: 'Cancelled', cls: 'status-cancelled' },
     COMPLETED: { label: 'Completed', cls: 'status-completed' },
   };
@@ -102,10 +102,10 @@ export default function BookingDetail({ booking, onClose }) {
           {/* Payment */}
           <div className="bdm-section-title">Payment</div>
           <div className="bdm-grid">
-            <DetailRow label="Method"        value={booking.paymentMethod  || 'N/A'} />
-            <DetailRow label="Status"        value={booking.paymentStatus  || 'N/A'} />
-            <DetailRow label="Payment ID"    value={booking.razorpayPaymentId || 'N/A'} />
-            <DetailRow label="Booked On"     value={formatDateTime(booking.bookingDate)} />
+            <DetailRow label="Method" value={booking.paymentMethod  || 'N/A'} />
+            <DetailRow label="Status" value={booking.paymentStatus  || 'N/A'} />
+            <DetailRow label="Payment ID" value={booking.razorpayPaymentId || 'N/A'} />
+            <DetailRow label="Booked On" value={formatDateTime(booking.bookingDate)} />
           </div>
         </div>
 

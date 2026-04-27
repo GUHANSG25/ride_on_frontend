@@ -5,6 +5,10 @@ const BusService = {
     const res = await axios.get('/buses');
     return res.data;
   },
+  getBusById: async (id) => {
+    const res = await axios.get(`/buses/${id}`);
+    return res.data;
+  },
   saveBus: async (busData) => {
     const res = await axios.post("/buses",busData);
     return res.data;

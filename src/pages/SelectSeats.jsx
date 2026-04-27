@@ -9,9 +9,7 @@ import { createOrder, verifyAndConfirm } from "../features/payment/slice/payment
 import Header from '../components/common/Header';
 import '../styles/SelectSeats.css';
 
-/* ─────────────────────────────────────────────
-   CONSTANTS & HELPERS
-───────────────────────────────────────────── */
+
 const STEPS = ["SELECT SEATS", "PASSENGER DETAILS", "PAYMENT"];
 
 function fmtTime(t) {
@@ -36,9 +34,6 @@ function calcDuration(dep, arr) {
   return `${Math.floor(mins / 60)}h ${mins % 60}m`;
 }
 
-/* ─────────────────────────────────────────────
-   SUB-COMPONENTS
-───────────────────────────────────────────── */
 function SeatGrid({ seats, selectedSeats, onToggle, loading }) {
   if (loading) {
     return (
@@ -97,8 +92,8 @@ function LegendCard() {
       <div className="ro-legend-title">Seat Legend</div>
       {[
         { cls: "available", label: "Available" },
-        { cls: "selected",  label: "Selected"  },
-        { cls: "booked",    label: "Booked"    },
+        { cls: "selected",  label: "Selected" },
+        { cls: "booked", label: "Booked" },
       ].map(({ cls, label }) => (
         <div key={cls} className="ro-legend-row">
           <div className={`ro-legend-dot ${cls}`} /> {label}
@@ -154,9 +149,9 @@ function PassengerForm({ index, data, onChange, errors }) {
 }
 
 function FareSummary({ selectedSeats, pendingBooking }) {
-  const baseFare  = pendingBooking?.baseFare       ?? 0;
-  const convFee   = pendingBooking?.convenienceFee ?? (selectedSeats.length > 0 ? 35 : 0);
-  const totalFare = pendingBooking?.totalFare      ?? baseFare + convFee;
+  const baseFare = pendingBooking?.baseFare ?? 0;
+  const convFee = pendingBooking?.convenienceFee ?? (selectedSeats.length > 0 ? 35 : 0);
+  const totalFare = pendingBooking?.totalFare ?? baseFare + convFee;
 
   return (
     <div className="ro-fare-card">
@@ -210,12 +205,12 @@ function BookingSuccess({ booking, onGoHome, onNewBooking }) {
           <div className="ro-success-card-title">Journey Details</div>
           <div className="ro-success-grid">
             {[
-              ["From",        booking.source],
-              ["To",          booking.destination],
+              ["From", booking.source],
+              ["To", booking.destination],
               ["Travel Date", fmtDate(booking.travelDate)],
-              ["Departure",   fmtTime(booking.departureTime)],
-              ["Pickup",      booking.pickupPoint],
-              ["Drop",        booking.dropPoint],
+              ["Departure", fmtTime(booking.departureTime)],
+              ["Pickup", booking.pickupPoint],
+              ["Drop", booking.dropPoint],
             ].map(([label, val]) => (
               <div key={label} className="ro-detail-item">
                 <span className="ro-detail-label">{label}</span>
@@ -229,10 +224,10 @@ function BookingSuccess({ booking, onGoHome, onNewBooking }) {
           <div className="ro-success-card-title">Bus Details</div>
           <div className="ro-success-grid">
             {[
-              ["Bus Name",   booking.busName],
+              ["Bus Name", booking.busName],
               ["Bus Number", booking.busNumber],
-              ["Bus Type",   booking.busType],
-              ["Seats",      booking.seatNumbers?.join(", ")],
+              ["Bus Type", booking.busType],
+              ["Seats", booking.seatNumbers?.join(", ")],
             ].map(([label, val]) => (
               <div key={label} className="ro-detail-item">
                 <span className="ro-detail-label">{label}</span>
@@ -271,9 +266,9 @@ function BookingSuccess({ booking, onGoHome, onNewBooking }) {
           <div className="ro-success-grid">
             {[
               ["Amount Paid", `₹${booking.totalFare?.toFixed(2)}`],
-              ["Method",      booking.paymentMethod     || "RAZORPAY"],
-              ["Status",      booking.paymentStatus     || "SUCCESS"],
-              ["Payment ID",  booking.razorpayPaymentId || "—"],
+              ["Method", booking.paymentMethod || "RAZORPAY"],
+              ["Status", booking.paymentStatus || "SUCCESS"],
+              ["Payment ID", booking.razorpayPaymentId || "—"],
             ].map(([label, val]) => (
               <div key={label} className="ro-detail-item">
                 <span className="ro-detail-label">{label}</span>
@@ -296,44 +291,39 @@ function BookingSuccess({ booking, onGoHome, onNewBooking }) {
   );
 }
 
-/* ─────────────────────────────────────────────
-   MAIN: SELECT SEATS WIZARD
-───────────────────────────────────────────── */
+
 export default function SelectSeats() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { tripId } = useParams();
 
-  // ── Redux state ───────────────────────────────────────────
-  const points       = useSelector((s) => s.trip.points);
-  const seats        = useSelector((s) => s.trip.seats);
+  const points = useSelector((s) => s.trip.points);
+  const seats = useSelector((s) => s.trip.seats);
   const seatsLoading = useSelector((s) => s.trip.seatsLoading);
-  const error        = useSelector((s) => s.trip.error);
-  const loading      = useSelector((s) => s.trip.loading);
+  const error = useSelector((s) => s.trip.error);
+  const loading = useSelector((s) => s.trip.loading);
   const paymentLoading = useSelector((s) => s.payment.loading);
   const bookingLoading = useSelector((s) => s.booking.loading);
 
   const pendingBooking = useSelector((s) => s.booking.pendingBooking);
-  const bookingError   = useSelector((s) => s.booking.error);
+  const bookingError = useSelector((s) => s.booking.error);
 
   const confirmedBooking = useSelector((s) => s.payment.confirmedBooking);
-  const paymentError     = useSelector((s) => s.payment.error);
+  const paymentError  = useSelector((s) => s.payment.error);
 
-  // ── Local UI state ────────────────────────────────────────
-  const [step,          setStep]          = useState(0);
+  const [step,setStep] = useState(0);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [pickupPoint,   setPickupPoint]   = useState("");
-  const [dropPoint,     setDropPoint]     = useState("");
-  const [passengers,    setPassengers]    = useState([]);
-  const [paxErrors,     setPaxErrors]     = useState([]);
-  const [offerCode,     setOfferCode]     = useState("");
-  const [localError,    setLocalError]    = useState(null);
-  const [showSuccess,   setShowSuccess]   = useState(false);
+  const [pickupPoint, setPickupPoint] = useState("");
+  const [dropPoint, setDropPoint] = useState("");
+  const [passengers, setPassengers] = useState([]);
+  const [paxErrors, setPaxErrors] = useState([]);
+  const [offerCode, setOfferCode] = useState("");
+  const [localError,setLocalError] = useState(null);
+  const [showSuccess,setShowSuccess] = useState(false);
 
   const localData = JSON.parse(localStorage.getItem("selectedTrip"));
   const duration  = calcDuration(localData?.departureTime, localData?.arrivalTime);
 
-  // ── Effects ───────────────────────────────────────────────
   useEffect(() => {
     if (tripId) {
       dispatch(fetchSeats(tripId));
@@ -347,7 +337,6 @@ export default function SelectSeats() {
     }
   }, [confirmedBooking]);
 
-  // ── Seat toggle ───────────────────────────────────────────
   const toggleSeat = useCallback((seat) => {
     setSelectedSeats((prev) => {
       const exists = prev.find((s) => s.seatNo === seat.seatNo);
@@ -355,7 +344,6 @@ export default function SelectSeats() {
     });
   }, []);
 
-  // ── STEP 0 → 1 : Lock seats ───────────────────────────────
   const handleProceed = async () => {
     if (!selectedSeats.length) { setLocalError("Please select at least one seat."); return; }
     if (!pickupPoint)          { setLocalError("Please select a pickup point.");     return; }
@@ -381,7 +369,6 @@ export default function SelectSeats() {
     }
   };
 
-  // ── STEP 1 → 2 : Validate passengers ─────────────────────
   const handlePassengerProceed = () => {
     const errors = passengers.map((p) => ({
       name:   !p.passengerName.trim(),
@@ -397,11 +384,9 @@ export default function SelectSeats() {
     setStep(2);
   };
 
-  // ── STEP 2 : Pay ──────────────────────────────────────────
   const handlePay = async () => {
     setLocalError(null);
 
-    // Step A: create Razorpay order using the fare calculated by the backend
     const total = pendingBooking?.totalFare;
     if (!total) {
       setLocalError("Could not determine fare. Please go back and try again.");
@@ -411,35 +396,28 @@ export default function SelectSeats() {
     const orderResult = await dispatch(createOrder(total));
     if (!createOrder.fulfilled.match(orderResult)) return;
 
-    const order = orderResult.payload; // { razorpayOrderId, amount, currency, keyId }
+    const order = orderResult.payload; 
 
-    // Step B: open Razorpay modal
     const paymentResult = await openRazorpay(order);
     if (!paymentResult) {
       dispatch(releaseSeats(pendingBooking.seatIds));
       setLocalError("Payment cancelled. Your seats have been released.");
       return;
     }
-
-    // Get userId from JWT stored in localStorage (no useSelector inside function)
-    // NOTE: userId is now resolved server-side from JWT — no need to send it
-    //       (kept only for reference; field removed from verifyPayload below)
-
-    // Step C: verify signature + atomic DB save
     const verifyPayload = {
-      razorpayOrderId:   order.razorpayOrderId,
+      razorpayOrderId: order.razorpayOrderId,
       razorpayPaymentId: paymentResult.razorpay_payment_id,
       razorpaySignature: paymentResult.razorpay_signature,
-      paymentMethod:     "RAZORPAY",
-      seatIds:           pendingBooking.seatIds,
-      pickupPoint:       pendingBooking.pickupPoint,
-      dropPoint:         pendingBooking.dropPoint,
-      totalFare:         pendingBooking.totalFare,
+      paymentMethod: "RAZORPAY",
+      seatIds: pendingBooking.seatIds,
+      pickupPoint: pendingBooking.pickupPoint,
+      dropPoint: pendingBooking.dropPoint,
+      totalFare: pendingBooking.totalFare,
       passengers: passengers.map((p) => ({
         passengerName: p.passengerName,
-        age:           parseInt(p.age),
-        gender:        p.gender,
-        seatNo:        p.seatNo,
+        age: parseInt(p.age),
+        gender: p.gender,
+        seatNo: p.seatNo,
       })),
     };
 
@@ -447,10 +425,8 @@ export default function SelectSeats() {
     if (!verifyAndConfirm.fulfilled.match(verifyResult)) {
       dispatch(releaseSeats(pendingBooking.seatIds));
     }
-    // On success, useEffect above flips showSuccess = true
   };
 
-  // ── Razorpay modal ────────────────────────────────────────
   const openRazorpay = (order) =>
     new Promise((resolve) => {
       if (!window.Razorpay) {
@@ -459,16 +435,16 @@ export default function SelectSeats() {
         return;
       }
       const options = {
-        key:         order.keyId,
-        amount:      order.amount * 100,
-        currency:    order.currency || "INR",
-        name:        "RideOn",
+        key: order.keyId,
+        amount: order.amount * 100,
+        currency: order.currency || "INR",
+        name: "RideOn",
         description: "RideOn Bus Ticket",
-        order_id:    order.razorpayOrderId,
-        handler:     (response) => resolve(response),
-        modal:       { ondismiss: () => resolve(null) },
-        prefill:     { name: passengers[0]?.passengerName || "" },
-        theme:       { color: "#2563EB" },
+        order_id: order.razorpayOrderId,
+        handler: (response) => resolve(response),
+        modal: { ondismiss: () => resolve(null) },
+        prefill: { name: passengers[0]?.passengerName || "" },
+        theme: { color: "#2563EB" },
       };
       const rzp = new window.Razorpay(options);
       rzp.on("payment.failed", () => resolve(null));
@@ -480,7 +456,6 @@ export default function SelectSeats() {
     if (step > 0) setStep(step - 1);
   };
 
-  // ── Render success ────────────────────────────────────────
   if (showSuccess) {
     return (
       <BookingSuccess
@@ -491,7 +466,6 @@ export default function SelectSeats() {
     );
   }
 
-  // ── Main render ───────────────────────────────────────────
   return (
     <div className="ss-page" style={{ background: "var(--bg)", minHeight: "100vh" }}>
       <Header />
@@ -717,7 +691,7 @@ export default function SelectSeats() {
                     fontSize: 12, color: "var(--muted)", marginTop: 8,
                     padding: "8px 12px", background: "var(--bg)", borderRadius: 8,
                   }}>
-                    🔒 Your payment is secured by 256-bit SSL encryption
+                    Your payment is secured by 256-bit SSL encryption
                   </div>
                 </div>
               </div>

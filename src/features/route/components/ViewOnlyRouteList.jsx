@@ -7,18 +7,10 @@ import AddRoute from "./AddRoute";
 
 export default function ViewOnlyRouteList() {
   const dispatch = useDispatch();
-  const { list, loading, error } = useSelector((state) => state.route);
+  const { list, loading, error, page, size, totalPages, totalElements } = useSelector((state) => state.route);  
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => { dispatch(fetchRoute()); }, [dispatch]);
-
-  const handleDeactivate = (id) => {
-    if (window.confirm("Deactivate this route?")) dispatch(deactivateRoute(id));
-  };
-
-  const handleActivate = (id) => {
-    if (window.confirm("Activate this route?")) dispatch(activateRoute(id));
-  };
+  useEffect(() => { dispatch(fetchRoute({page:0, size:5})); }, [dispatch]);
 
   const columns = [
     { key: "routeId",label: "Route ID",width: 90,  render: (r) => <span className="font-monospace text-muted small">{r.routeId}</span> },
@@ -49,7 +41,12 @@ export default function ViewOnlyRouteList() {
         rowKey="routeId"
         loading={loading}
         error={error}
+        page={page}
+        size={size}
+        totalPages={totalPages}
+        totalElements={totalElements} 
         onDismissError={() => dispatch(clearError())}
+        onPageChange={(newPage) => dispatch(fetchRoute({ page: newPage, size }))}  
         searchFields={["source"]}
         emptyMessage="No routes found."
       />

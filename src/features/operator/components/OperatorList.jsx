@@ -7,10 +7,10 @@ import AddOperator from '../components/AddOperator'
 
 export default function OperatorList() {
   const dispatch = useDispatch();
-  const { list, loading, error } = useSelector((state) => state.operator);
+  const { list, loading, error, page, size, totalPages, totalElements } = useSelector((state) => state.operator);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => { dispatch(fetchOperators()); }, [dispatch]);
+  useEffect(() => { dispatch(fetchOperators({page:0,size:5})); }, [dispatch]);
 
   const columns = [
     { key: "userId", label: "ID", width: 90,  render: (r) => <span className="font-monospace text-muted">{r.userId}</span> },
@@ -52,7 +52,12 @@ export default function OperatorList() {
         rowKey="userId"
         loading={loading}
         error={error}
+        page={page}
+        size={size}
+        totalPages={totalPages}
+        totalElements={totalElements}         
         onDismissError={() => dispatch(clearError())}
+        onPageChange={(newPage) => dispatch(fetchOperators({ page: newPage, size }))}
         searchFields={["userName", "email"]}
         emptyMessage="No operators found."
       />

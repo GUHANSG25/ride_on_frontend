@@ -31,7 +31,6 @@ export default function ProfileField({
         </span>
       )}
  
-      {/* Input (edit mode) — select */}
       {showInput && options && (
         <select
           id={inputId}
@@ -49,7 +48,6 @@ export default function ProfileField({
         </select>
       )}
  
-      {/* Input (edit mode) — text / email / date */}
       {showInput && !options && (
         <input
           id={inputId}

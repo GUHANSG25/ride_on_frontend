@@ -14,6 +14,7 @@ import { fetchPendingOperators } from "../features/operator/slice/OperatorSlice"
 import {BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
 import { fetchUserProfile } from "../features/profile/slice/ProfileSlice";
 import ProfileCard from "../features/profile/components/ProfileCard";
+import BookingCancelList from "../features/booking/components/BookingCancelList";
 
 export default function AdminDashboard() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -43,7 +44,7 @@ export default function AdminDashboard() {
   ];
 
   const {list : routes} = useSelector((state) => state.route);
-  const {list : operators} = useSelector((state) => state.operator);
+  const {list : operators,page, size, totalPages, totalElements} = useSelector((state) => state.operator);
   const {pendinglist : pending } = useSelector((state) => state.operator);
 
   const dispatch = useDispatch();
@@ -63,9 +64,9 @@ export default function AdminDashboard() {
   ];
 
   useEffect(() => {
-    dispatch(fetchRoute());
-    dispatch(fetchOperators());
-    dispatch(fetchPendingOperators());
+    dispatch(fetchRoute({page:0,size:5}));
+    dispatch(fetchOperators({page:0,size:5}));
+    dispatch(fetchPendingOperators({page:0,size:5}));
     dispatch(fetchUserProfile());
   }, [dispatch]);
 
@@ -122,8 +123,11 @@ export default function AdminDashboard() {
             <div className="page-head"><h1>Revenue Reports</h1><p>Track revenue and analytics</p></div>
           )}
           {activeSection === "cancellations" && (
+            <>
             <div className="page-head"><h1>Cancellations</h1><p>Monitor cancellation trends</p>
-            <p>under development</p></div>
+            </div>
+            <BookingCancelList/>
+            </>
           )}
           {activeSection === "profile" && (
             <ProfileCard/>

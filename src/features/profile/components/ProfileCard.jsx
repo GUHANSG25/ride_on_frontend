@@ -6,9 +6,9 @@ import ProfileField from './ProfileField';
 import '../../../styles/ProfilePage.css'
 
 const GENDER_OPTIONS = [
-  { value: "Male",   label: "Male"   },
+  { value: "Male", label: "Male" },
   { value: "Female", label: "Female" },
-  { value: "Other",  label: "Other"  },
+  { value: "Other", label: "Other" },
 ];
 
 const formatRole = (role = "") => {
@@ -16,11 +16,10 @@ const formatRole = (role = "") => {
   return stripped.charAt(0).toUpperCase() + stripped.slice(1).toLowerCase();
 };
 
-// Only map fields the API actually returns
 const profileToDraft = (p = {}) => ({
   name:  p.userName || "",
   email: p.email    || "",
-  phone: p.mobile   || "",  // read-only
+  phone: p.mobile   || "",  
 });
 
 export default function ProfileCard() {
@@ -52,7 +51,6 @@ export default function ProfileCard() {
   };
 
   const handleSave = async () => {
-    // Map draft keys back to what the API expects
     await dispatch(updateUserProfile({
       userName: draft.name,
       email: draft.email,
@@ -173,9 +171,8 @@ export default function ProfileCard() {
 
 function MetaBadge({ label, value, status }) {
   const colorClass =
-    status === "Active"   ? "text-success bg-success" :
-    status === "Inactive" ? "text-danger  bg-danger"  :
-                            "text-secondary bg-secondary";
+    status === "Active" ? "text-success bg-success" :
+    status === "Inactive" ? "text-danger  bg-danger"  : "text-secondary bg-secondary";
   return (
     <div className="d-flex align-items-center gap-1">
       <span

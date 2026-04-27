@@ -1,19 +1,43 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch,useSelector } from 'react-redux'
 import AddNewModal from '../../../components/common/AddNewModal'
 import { saveTrip } from '../Slice/TripSlice'
 import '../../../styles/ScheduleModal.css'
+import { fetchBus } from '../../Bus/Slice/BusSlice'
+import { fetchRouteById } from '../../route/slice/RouteSlice'
+import Toast from '../../../components/common/Toast'
 
 export default function AddTrip({ show, onClose }) {
   const dispatch = useDispatch()
+  const[toast, setToast] = useState(null);
+
+  const showToast = (msg, type="success") => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const [form, setForm] = useState({departureDate: '',departureTime: '',arrivalTime: '',fare: '',busId: '',routeId: '',
   })
-
+  
   const [pickDropPoints, setPickDropPoints] = useState([
     { points: '', pointType: 'SOURCE', arrivalTime: '' },
   ])
 
+  const {bus} = useSelector(state => state.bus);
+  const {route} = useSelector(state => state.route);
+
+  useEffect(() => {
+    if (form.busId && !isNaN(form.busId) && Number(form.busId) > 0) {
+      dispatch(fetchBus(Number(form.busId)))
+    }
+    
+  }, [dispatch, form.busId])
+
+  useEffect(() => {
+    if (form.routeId && !isNaN(form.routeId) && Number(form.routeId) > 0) {
+      dispatch(fetchRouteById(Number(form.routeId)))
+    }
+  }, [dispatch, form.routeId])
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
@@ -36,6 +60,32 @@ export default function AddTrip({ show, onClose }) {
   }
 
   const handleSubmit = () => {
+
+    if (!form.busId || !form.routeId || !form.departureDate || !form.departureTime || !form.arrivalTime || !form.fare) {
+      showToast('Please fill in all required fields.')
+      return
+    }
+    console.log("Bus:", bus);
+    console.log("Route:", route);
+    if (!bus || bus.busId !== Number(form.busId)) {
+      showToast('Bus not found. Please enter a valid Bus ID.')
+      return
+    }
+
+    if (!route || route.routeId !== Number(form.routeId)) {
+      showToast('Route not found. Please enter a valid Route ID.')
+      return
+    }
+
+    if(bus.busStatus === "InActive"){
+      showToast("Cannot add schedule. Selected bus is inactive.", "error");
+      return;
+    }
+    if(route.status === "InActive"){
+      showToast("Cannot add schedule. Selected route is inactive.", "error");
+      return;
+    }
+
     const payload = {
       ...form,
       busId: Number(form.busId),
@@ -57,8 +107,10 @@ export default function AddTrip({ show, onClose }) {
     .filter((point) => point.pointType === 'DESTINATION')
 
   return (
+    
     <AddNewModal show={show} onClose={onClose} title="Add New Schedule" onSubmit={handleSubmit} submitLabel="Add Schedule">
       <div className="schedule-grid">
+        <Toast toast={toast} />
         <section className="panel">
           <div className="panel-header">
             <div className="panel-title">Trip Details</div>

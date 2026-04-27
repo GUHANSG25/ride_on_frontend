@@ -7,7 +7,6 @@ const BookingService = {
   },
 
   lockSeats: async (payload) => {
-    // payload: { tripId, seatIds, pickupPoint, dropPoint, offerCode }
     const res = await axios.post('/bookings/lock-seats', payload);
     return res.data;
   },
@@ -26,6 +25,16 @@ const BookingService = {
     const res = await axios.post(`/bookings/${bookingRef}/cancel`);
     return res.data;
   },
+
+  getBookingsByOp: async (operatorId) => {
+    const res = await axios.get(`/bookings/operator/${operatorId}`);
+    return res.data;
+  },
+
+  cancelList: async () => {
+    const res = await axios.get('bookings/cancel-list');
+    return res.data;
+  }
 };
 
 export default BookingService;

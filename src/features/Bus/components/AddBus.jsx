@@ -3,11 +3,18 @@ import { useDispatch } from "react-redux";
 import { saveBus } from '../Slice/BusSlice'
 import AddNewModal from "../../../components/common/AddNewModal";
 import axios from "../../../api/axiosInstance";
+import Toast from "../../../components/common/Toast";
 
 export default function AddBus({ show, onClose }) {
   const dispatch = useDispatch();
   const [operatorId, setOperatorId] = useState(null);
   const [form, setForm] = useState({busName: "",busNumber: "",busType: "SEATER",amenity: "",totalSeat: 0,});
+  const [toast, setToast] = useState(null);
+
+  const showToast = (msg, type="success") => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3000);
+  };  
 
   useEffect(() => {
     axios.get("/user/profile") 
@@ -24,16 +31,27 @@ export default function AddBus({ show, onClose }) {
       console.error("Operator ID not loaded yet");
       return;
     }
+    if(!form.busName || !form.busNumber || !form.busType || !form.totalSeat) {
+      showToast('Please fill in all required fields.', 'error');
+      return;
+    }
+    if(form.totalSeat <= 0) {
+      showToast('Total seats must be greater than zero.', 'error');
+      return;
+    }
+
     const payload = {
       ...form,
       operator: { userId: operatorId },
     };
+
     dispatch(saveBus(payload));
     onClose();
   };
 
   return (
     <AddNewModal show={show} onClose={onClose} title="Add New Bus" onSubmit={handleSubmit} submitLabel="Add Bus">
+      <Toast toast={toast} />
       <div className="row g-3">
         <div className="col-6">
           <label className="form-label small">Bus Name <span style={{ color: "red" }}>*</span></label>

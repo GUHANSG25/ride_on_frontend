@@ -18,6 +18,7 @@ import { fetchUserProfile } from "../features/profile/slice/ProfileSlice";
 import ProfileCard from "../features/profile/components/ProfileCard";
 import {PieChart,Pie,CartesianGrid,Tooltip,ResponsiveContainer,Cell} from "recharts";
 import { LineChart, Line, XAxis, YAxis } from "recharts";
+import ViewBooking from "../features/booking/components/ViewBooking";
 
 
 const titles = {
@@ -111,34 +112,54 @@ export default function OperatorDashboard() {
             <div className="gap-2">
             <StatsGrid stats={stats}/>
             
-            <div className="d-flex gap-2">
-              <div style={{ width: "100%", height: 300 }}>
-                <h4>Bus Status</h4>
-                <ResponsiveContainer>
-                  <PieChart>
-                    <Pie data={pieChartData} dataKey="value" outerRadius={100} label>
-                      {pieChartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
+            <div className="d-flex gap-3">
 
-              <div style={{ width: "100%", height: 300 }}>
-                <h4>Trips Scheduled</h4>
-                <ResponsiveContainer>
-                  <LineChart data={data}>
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="trips" />
-                  </LineChart>
-                </ResponsiveContainer>
+                {/* Bus Status Card */}
+                <div style={{
+                  flex: 1,
+                  background: "#fff",
+                  border: "0.5px solid #e0e0e0",
+                  borderRadius: 12,
+                  padding: "14px 16px"
+                }}>
+                  <h6 style={{ margin: "0 0 12px", fontSize: 13, fontWeight: 500 }}>Bus Status</h6>
+                  <div style={{ height: 260 }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie data={pieChartData} dataKey="value" outerRadius={90} label>
+                          {pieChartData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Trip Scheduled Card */}
+                <div style={{
+                  flex: 1,
+                  background: "#fff",
+                  border: "0.5px solid #e0e0e0",
+                  borderRadius: 12,
+                  padding: "14px 16px"
+                }}>
+                  <h6 style={{ margin: "0 0 12px", fontSize: 13, fontWeight: 500 }}>Trip Scheduled</h6>
+                  <div style={{ height: 260 }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={data}>
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="trips" />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
               </div>
-            </div><br></br><br></br>
-            
+              <br></br>
               <div><h3 style={{ fontWeight: "800", fontSize: "20px" }}>
                 Your Buses</h3> <hr></hr>
                   <BusList/><hr></hr>
@@ -189,7 +210,10 @@ export default function OperatorDashboard() {
             </div>  
           </div>
           <div className={`section ${activeSection === "bookings" ? "active" : ""}`}>
-            <div className="page-head"><h1>View Bookings</h1><p>View The Bookings done by customer</p></div>
+            <div className="page-head">
+              <h1>View Bookings</h1><p>View The Bookings done by customer</p>
+              <ViewBooking/>
+            </div>
             </div>
             <div className={`section ${activeSection === "profile" ? "active" : ""}`}>
               <ProfileCard/>

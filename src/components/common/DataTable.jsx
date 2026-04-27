@@ -5,24 +5,10 @@ import Search from './Search';
 import Badge from './Badge';
 
 export default function DataTable({
-  label = "Records",
-  columns,
-  data,
-  rowKey,
-  loading,
-  error,
-  page,          // 0-based current page index (from state.route.page)
-  size,
-  totalPages,    // total number of pages (from state.route.totalPages)
-  totalElements,
-  onPageChange,  // (newPage: number) => void — caller dispatches fetchRoute
-  onDismissError,
-  searchFields,
-  emptyMessage = "No records found.",
-}) {
+  label = "Records",columns,data,rowKey,loading,error,page,size,totalPages,   
+  totalElements,onPageChange,onDismissError,searchFields,emptyMessage = "No records found.",}) {
   const [query, setQuery] = useState("");
 
-  // Guard: data may be null/undefined while Redux fetch is in-flight
   const rows = Array.isArray(data) ? data : [];
 
   const filtered = rows.filter((row) => {
@@ -33,8 +19,7 @@ export default function DataTable({
     );
   });
 
-  // Coerce to numbers so comparisons never silently fail on string "0" or undefined
-  const currentPage = Number(page)       || 0;
+  const currentPage = Number(page) || 0;
   const totalPagesN = Number(totalPages) || 1;
 
   const isFirst = currentPage === 0;
@@ -105,23 +90,29 @@ export default function DataTable({
         </tbody>
       </table>
 
-      {/* Pagination — always visible so user knows where they are */}
-      <div className="pagination">
-        <button
-          disabled={isFirst}
-          onClick={() => !isFirst && onPageChange(currentPage - 1)}
-        >
-          Prev
-        </button>
-
-        <span>Page {currentPage + 1} of {totalPagesN}</span>
-
-        <button
-          disabled={isLast}
-          onClick={() => !isLast && onPageChange(currentPage + 1)}
-        >
-          Next
-        </button>
+      <div className="d-flex align-items-center justify-content-between px-3 py-2 border-top">
+        <span style={{ fontSize: 13, color: "var(--bs-secondary-color)" }}>
+          Page {currentPage + 1} of {totalPagesN}
+          {totalElements != null && (
+            <span className="ms-2 text-muted">· {totalElements} total</span>
+          )}
+        </span>
+        <div className="d-flex gap-2">
+          <button
+            className="btn btn-sm btn-outline-secondary"
+            disabled={isFirst}
+            onClick={() => !isFirst && onPageChange(currentPage - 1)}
+          >
+            ← Prev
+          </button>
+          <button
+            className="btn btn-sm btn-outline-secondary"
+            disabled={isLast}
+            onClick={() => !isLast && onPageChange(currentPage + 1)}
+          >
+            Next →
+          </button>
+        </div>
       </div>
 
     </div>

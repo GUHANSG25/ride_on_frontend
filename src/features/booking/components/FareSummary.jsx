@@ -3,8 +3,8 @@ import React from 'react';
 
 export default function FareSummary({ trip, selectedSeats, pendingBooking }) {
   const CONVENIENCE_FEE = 35;
-  const baseFare  = pendingBooking?.baseFare  ?? (trip?.fare ?? 0) * selectedSeats.length;
-  const convFee   = pendingBooking?.convenienceFee ?? (selectedSeats.length > 0 ? CONVENIENCE_FEE : 0);
+  const baseFare = pendingBooking?.baseFare  ?? (trip?.fare ?? 0) * selectedSeats.length;
+  const convFee = pendingBooking?.convenienceFee ?? (selectedSeats.length > 0 ? CONVENIENCE_FEE : 0);
   const totalFare = pendingBooking?.totalFare ?? baseFare + convFee;
 
   return (

@@ -6,7 +6,17 @@ export const fetchBuses = createAsyncThunk("buses/fetchAll",async(_,thunkAPI) =>
         return await BusService.getAllBus();
     }catch(error){
         return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to fetch operators" 
+        error.response?.data?.message || "Failed to fetch Buses" 
+      );
+    }
+});
+
+export const fetchBus = createAsyncThunk("buses/fetch",async(id,thunkAPI) => {
+    try{
+        return await BusService.getBusById(id);
+    }catch(error){
+        return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to fetch bus" 
       );
     }
 });
@@ -48,6 +58,7 @@ const BusSlice = createSlice({
         list:[],
         loading:false,
         error:null,
+        bus:null,
     },
     reducers:{
         clearError: (state) => {
@@ -65,6 +76,18 @@ const BusSlice = createSlice({
             state.list = action.payload;
         })
         .addCase(fetchBuses.rejected, (state,action) => {
+            state.error = action.payload;
+            state.loading = false;
+        })
+        .addCase(fetchBus.pending, (state) => {
+            state.error = null;
+            state.loading = true;
+        })
+        .addCase(fetchBus.fulfilled, (state,action) => {
+            state.loading = false;
+            state.bus = action.payload;
+        })
+        .addCase(fetchBus.rejected, (state,action) => {
             state.error = action.payload;
             state.loading = false;
         })

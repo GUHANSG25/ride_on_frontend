@@ -7,22 +7,22 @@ import AddRoute from "./AddRoute";
 
 export default function RouteList() {
   const dispatch = useDispatch();
-  const { list, loading, error,page,totalPages } = useSelector((state) => state.route);
   const [showModal, setShowModal] = useState(false);
+  const { list, loading, error, page, size, totalPages, totalElements } = useSelector((state) => state.route);  
 
   useEffect(() => { dispatch(fetchRoute({page:0, size:5})); }, [dispatch]);
 
   const handleDeactivate = async (id) => {
     if (window.confirm("Deactivate this route?")) {
       await dispatch(deactivateRoute(id));
-      await dispatch(fetchRoute({page,size}));
+      await dispatch(fetchRoute({ page, size }));    
     }
   };
 
   const handleActivate = async (id) => {
     if (window.confirm("Activate this route?")) {
       await dispatch(activateRoute(id));
-      await dispatch(fetchRoute({page,size}));
+      await dispatch(fetchRoute({ page, size }));
     }
   };
 
@@ -62,19 +62,21 @@ export default function RouteList() {
         </button>
       </div>
         <DataTable
-        label="All Routes"
-        columns={columns}
-        data={list}
-        rowKey="routeId"
-        loading={loading}
-        error={error}
-        page={page}
-        totalPages={totalPages}
-        onDismissError={() => dispatch(clearError())}
-        onPageChange={(newPage) => dispatch(fetchRoute({ page: newPage, size: 5 }))}
-        searchFields={["source"]}
-        emptyMessage="No routes found."
-      />
+          label="All Routes"
+          columns={columns}
+          data={list}
+          rowKey="routeId"
+          loading={loading}
+          error={error}
+          page={page}
+          size={size}
+          totalPages={totalPages}
+          totalElements={totalElements}         
+          onDismissError={() => dispatch(clearError())}
+          onPageChange={(newPage) => dispatch(fetchRoute({ page: newPage, size }))}  
+          searchFields={["source"]}
+          emptyMessage="No routes found."
+        />
 
       <AddRoute show={showModal} onClose={() => setShowModal(false)} />
     </>

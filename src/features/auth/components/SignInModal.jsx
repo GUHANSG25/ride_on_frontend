@@ -131,7 +131,6 @@ export default function SignInModal({ open, onClose, onSwitchSignUp }) {
             <div className={`step-dot ${otpReady ? "active" : ""}`} />
           </div>
 
-          {/* Panel 1 — Mobile */}
           {!otpReady && (
             <div className="auth-panel">
               <h2 className="auth-title">Welcome <span>Back</span></h2>
@@ -171,7 +170,6 @@ export default function SignInModal({ open, onClose, onSwitchSignUp }) {
             </div>
           )}
 
-          {/* Panel 2 — OTP */}
           {otpReady && (
             <div className="auth-panel">
               <button className="back-btn" onClick={() => { resetOtp(); setErrors({}); }}>← Back</button>

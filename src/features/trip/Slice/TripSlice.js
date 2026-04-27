@@ -59,25 +59,55 @@ const tripSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTrip.pending,  (state) => { state.loading = true;  state.error = null; })
-      .addCase(fetchTrip.fulfilled,(state, action) => { state.loading = false; state.list = action.payload; })
-      .addCase(fetchTrip.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
+      .addCase(fetchTrip.pending,  (state) => { 
+        state.loading = true;  state.error = null; 
+      })
+      .addCase(fetchTrip.fulfilled,(state, action) => { 
+        state.loading = false; state.list = action.payload; 
+      })
+      .addCase(fetchTrip.rejected, (state, action) => {
+         state.loading = false; state.error = action.payload; 
+      })
 
-      .addCase(saveTrip.pending,  (state) => { state.loading = true;  state.error = null; })
-      .addCase(saveTrip.fulfilled,(state, action) => { state.loading = false; state.list.push(action.payload); })
-      .addCase(saveTrip.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
+      .addCase(saveTrip.pending,  (state) => { 
+        state.loading = true;  state.error = null;
+      })
+      .addCase(saveTrip.fulfilled,(state, action) => { 
+        state.loading = false; state.list.push(action.payload); 
+      })
+      .addCase(saveTrip.rejected, (state, action) => { 
+        state.loading = false; state.error = action.payload; 
+      })
 
-      .addCase(searchTrip.pending,  (state) => { state.loading = true;  state.error = null; })
-      .addCase(searchTrip.fulfilled,(state, action) => { state.loading = false; state.trips = action.payload; })
-      .addCase(searchTrip.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
+      .addCase(searchTrip.pending,  (state) => { 
+        state.loading = true;  state.error = null; 
+      })
+      .addCase(searchTrip.fulfilled,(state, action) => { 
+        state.loading = false; state.trips = action.payload; 
+      })
+      .addCase(searchTrip.rejected, (state, action) => { 
+        state.loading = false; state.error = action.payload; 
+      })
 
-      .addCase(fetchSeats.pending,  (state) => { state.seatsLoading = true;  state.error = null; })
-      .addCase(fetchSeats.fulfilled,(state, action) => { state.seatsLoading = false; state.seats = action.payload; })
-      .addCase(fetchSeats.rejected, (state, action) => { state.seatsLoading = false; state.error = action.payload; })
+      .addCase(fetchSeats.pending,  (state) => { 
+        state.seatsLoading = true;  state.error = null; 
+      })
+      .addCase(fetchSeats.fulfilled,(state, action) => { 
+        state.seatsLoading = false; state.seats = action.payload; 
+      })
+      .addCase(fetchSeats.rejected, (state, action) => { 
+        state.seatsLoading = false; state.error = action.payload; 
+      })
 
-      .addCase(fetchPoints.pending,  (state) => { state.loading = true;  state.error = null; })
-      .addCase(fetchPoints.fulfilled,(state, action) => { state.loading = false; state.points = action.payload; })
-      .addCase(fetchPoints.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
+      .addCase(fetchPoints.pending,  (state) => { 
+        state.loading = true;  state.error = null; 
+      })
+      .addCase(fetchPoints.fulfilled,(state, action) => {
+         state.loading = false; state.points = action.payload; 
+      })
+      .addCase(fetchPoints.rejected, (state, action) => { 
+        state.loading = false; state.error = action.payload; 
+      });
   },
 });
 

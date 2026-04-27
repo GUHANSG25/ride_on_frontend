@@ -2,20 +2,32 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { saveRoute } from "../slice/RouteSlice";
 import AddNewModal from "../../../components/common/AddNewModal";
+import Toast from "../../../components/common/Toast";
 
 export default function AddRoute({ show, onClose }) {
   const dispatch = useDispatch();
   const [form, setForm] = useState({ source: "", destination: "", distance: "",estimatedTime:"", status: "Active" });
+  const[toast, setToast] = useState(null);
+  
+  const showToast = (msg, type="error") => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = () => {
+    if(!form.source || !form.destination || !form.distance || !form.estimatedTime){
+      showToast("Please fill in all required fields.");
+      return;
+    }
     dispatch(saveRoute(form));
     onClose();
   };
 
   return (
     <AddNewModal show={show} onClose={onClose} title="Add New Route" onSubmit={handleSubmit} submitLabel="Add Route">
+      <Toast toast={toast} />
       <div className="row g-3">
         <div className="col-6">
           <label className="form-label small">Source City <span style={{ color: "red" }}>*</span></label>

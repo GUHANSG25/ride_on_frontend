@@ -13,7 +13,7 @@ export default function Footer() {
 
         <div className="footer-links">
           <h4>Quick Links</h4>
-          <Link to="/contact">Contact Us</Link>      {/* ← Link instead of <a> */}
+          <Link to="/contact">Contact Us</Link>      
           <Link to="/about">About Us</Link>
           <Link to="/offers">Offers</Link>
         </div>
@@ -30,7 +30,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p>rideonofficial@gmail.com</p>
-        <p>&copy; 2026 RIDEON (INDIA) PRIVATE LIMITED. All rights reserved</p>  {/* ← &copy; */}
+        <p>&copy; 2026 RIDEON (INDIA) PRIVATE LIMITED. All rights reserved</p> 
       </div>
     </footer>
   )

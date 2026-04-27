@@ -7,6 +7,11 @@ const RouteService = {
     return res.data;
   },
 
+  getById: async (id) => {
+    const res = await axios.get(`/routes/${id}`);
+    return res.data;
+  },
+
   save: async (routeData) => {
     const res = await axios.post("/routes", routeData);
     return res.data;

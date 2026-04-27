@@ -7,6 +7,7 @@ import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import ProfileLayout from '../features/profile/components/ProfileLayout';
 import '../styles/Bookings.css';
+import { Link } from 'react-router-dom';
 
 export default function MyBookings() {
   const dispatch = useDispatch();
@@ -51,10 +52,9 @@ export default function MyBookings() {
 
           {!loading && list.length === 0 && !error && (
             <div className="bookings-empty">
-              <div className="bookings-empty-icon">🎫</div>
               <h4>No bookings found</h4>
               <p>You haven't made any bookings yet.</p>
-              <a href="/" className="bookings-book-btn">Book a Bus</a>
+              <Link to='/home' className="bookings-book-btn">Book a Bus</Link>
             </div>
           )}
         </div>

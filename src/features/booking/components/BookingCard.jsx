@@ -1,7 +1,12 @@
+import { useDispatch } from "react-redux";
+import { cancelBooking } from "../Slice/BookingSlice";
+
 export default function BookingCard({ booking, onViewDetails }) {
+  const dispatch = useDispatch();
+
   const statusConfig = {
     CONFIRMED: { label: 'Confirmed', cls: 'status-confirmed' },
-    PENDING:   { label: 'Pending',   cls: 'status-pending'   },
+    PENDING: { label: 'Pending',   cls: 'status-pending'   },
     CANCELLED: { label: 'Cancelled', cls: 'status-cancelled' },
     COMPLETED: { label: 'Completed', cls: 'status-completed' },
   };
@@ -19,6 +24,18 @@ export default function BookingCard({ booking, onViewDetails }) {
     const date = new Date(); date.setHours(+h, +m);
     return date.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
   };
+
+  const handleCancel = async (bookingRef) => {
+    if (!window.confirm("Are you sure you want to cancel this booking?")) return;
+    try{
+      await dispatch(cancelBooking(bookingRef));
+    }catch(error){
+      alert(error);
+    }
+
+  };
+
+  const optionCancel = booking.bookingStatus === "CONFIRMED" || booking.bookingStatus === "PENDING";
 
   return (
     <div className="booking-card-item">
@@ -64,6 +81,11 @@ export default function BookingCard({ booking, onViewDetails }) {
           <button className="bci-btn" onClick={() => onViewDetails(booking)}>
             View Details
           </button>
+          {optionCancel && (
+            <button className="bci-btn" onClick={() => handleCancel(booking.bookingRef)}>
+              Cancel
+            </button>
+          )}
         </div>
       </div>
     </div>

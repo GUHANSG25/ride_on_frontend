@@ -10,6 +10,14 @@ export const fetchRoute = createAsyncThunk("route/fetchAll", async ({page,size},
   }
 });
 
+export const fetchRouteById = createAsyncThunk("route/fetchById", async (id, thunkAPI) => {
+  try {
+    return await RouteService.getById(id);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch route");
+  }
+});
+
 export const saveRoute = createAsyncThunk("route/save", async (routeData, thunkAPI) => {
   try{
     return await RouteService.save(routeData);
@@ -44,6 +52,7 @@ const routeSlice = createSlice({
     totalElements: 0,
     loading: false,
     error: null,
+    route: null,
   },
   reducers: {
     clearError: (state) => { state.error = null; }
@@ -66,7 +75,16 @@ const routeSlice = createSlice({
         state.loading = false; 
         state.error = action.payload;
       })
-
+      .addCase(fetchRouteById.pending,(state) => { 
+        state.loading = true; 
+        state.error = null; 
+      }).addCase(fetchRouteById.fulfilled,(state, action) => { 
+        state.loading = false; 
+        state.route = action.payload; 
+      }).addCase(fetchRouteById.rejected,(state, action) => { 
+        state.loading = false; 
+        state.error = action.payload; 
+      })
       .addCase(saveRoute.pending,   (state) => { 
         state.loading = true; 
         state.error = null; 

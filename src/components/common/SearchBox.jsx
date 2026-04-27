@@ -7,6 +7,8 @@ export default function SearchBox({ onSearch }) {
   const navigate = useNavigate();
   const[toast,setToast] = useState(null);
 
+  const today = new Date().toISOString().split('T')[0];
+
   const showToast = (msg) => {
     setToast({msg});
     setTimeout(() => setToast(null),3000);
@@ -62,6 +64,7 @@ export default function SearchBox({ onSearch }) {
             <input
               type="date"
               value={date}
+              min={today}
               onChange={(e) => setDate(e.target.value)}
             />
           </div>

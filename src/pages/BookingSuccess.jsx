@@ -41,7 +41,6 @@ export default function BookingSuccess() {
 
       {/* ── Success Hero ── */}
       <div className="ss-success-hero">
-        <div className="ss-success-icon">✓</div>
         <h1 className="ss-success-title">Booking Confirmed!</h1>
         <p className="ss-success-ref">Booking Ref: {booking.bookingRef}</p>
       </div>
