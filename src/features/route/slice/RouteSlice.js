@@ -47,7 +47,7 @@ const routeSlice = createSlice({
   initialState: {
     list: [],
     page:0,
-    size:5,
+    size:5,  
     totalPages: 0,
     totalElements: 0,
     loading: false,
